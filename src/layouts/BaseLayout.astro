@@ -1,0 +1,56 @@
+---
+import { ClientRouter } from "astro:transitions";
+import { Image } from "astro:assets";
+import roverLogo from "../assets/roverlogo400.png";
+import "../styles/style.css";
+const { title, description = "cu rover team - competing in urc 2026" } =
+    Astro.props;
+const pathname = Astro.url.pathname;
+
+const links = [
+    { href: "/", label: "home" },
+    { href: "/competition", label: "competition" },
+    { href: "/blog", label: "blog" },
+    { href: "/sponsors", label: "sponsors" },
+    { href: "/contact", label: "contact" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content={description} />
+        <title>{title}</title>
+        <ClientRouter />
+    </head>
+    <body>
+        <header>
+            <Image src={roverLogo} alt="CU Rover logo" class="site-logo" />
+            <nav>
+                <ul>
+                    {
+                        links.map((link) => (
+                            <li>
+                                <a
+                                    href={link.href}
+                                    aria-current={
+                                        pathname === link.href
+                                            ? "page"
+                                            : undefined
+                                    }
+                                >
+                                    {link.label}
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <slot />
+        </main>
+    </body>
+</html>
